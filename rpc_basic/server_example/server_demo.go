@@ -5,6 +5,7 @@ import (
 	"net"
 	"net/http"
 	"net/rpc"
+	"os"
 )
 
 // Make a new ToDo type that is a typed collection of fields
@@ -40,6 +41,7 @@ func (t *Task) GetToDo(title string, reply *ToDo) error {
 
 // MakeToDo takes a ToDo type and appends to the todoArray
 func (t *Task) MakeToDo(todo ToDo, reply *ToDo) error {
+	log.Print("append into todo list.")
 	todoSlice = append(todoSlice, todo)
 	*reply = todo
 	return nil
@@ -91,6 +93,7 @@ func main() {
 		log.Fatal("Listen error: ", e)
 	}
 	log.Printf("Serving RPC server on port %d", 1234)
+	log.Printf("PID: %v", os.Getpid())
 	// Start accept incoming HTTP connections
 	err = http.Serve(listener, nil)
 	if err != nil {
